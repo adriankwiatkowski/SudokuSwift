@@ -8,36 +8,33 @@
 import SwiftUI
 
 struct MenuView: View {
-    
-    func difficultyButton(text: String) -> some View {
-        Button {
-            
-        } label: {
-            Text(text)
-                .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.borderedProminent)
-        .padding(.horizontal)
+  func difficultyButton(text: String) -> some View {
+    Button {} label: {
+      Text(text)
+        .frame(maxWidth: .infinity)
     }
-    
-    var body: some View {
-        VStack {
-            Text("Sudoku")
-            Spacer()
-            
-            // Zdjecie ??
-            
-            difficultyButton(text: "Latwy")
-            difficultyButton(text: "Sredni")
-            difficultyButton(text: "Trudny")
-            difficultyButton(text: "Bardzo trudny")
-            
-            Spacer()
-        }
-        .font(.largeTitle)
+    .buttonStyle(.borderedProminent)
+    .padding(.horizontal)
+  }
+
+  var body: some View {
+    VStack {
+      Text("Sudoku")
+      Spacer()
+
+      // Zdjecie ??
+
+      difficultyButton(text: "Latwy")
+      difficultyButton(text: "Sredni")
+      difficultyButton(text: "Trudny")
+      difficultyButton(text: "Bardzo trudny")
+
+      Spacer()
     }
+    .font(.largeTitle)
+  }
 }
 
 #Preview {
-    MenuView()
+  MenuView()
 }
