@@ -26,14 +26,21 @@ struct GameView: View {
   var inputNumbers: some View {
     HStack {
       ForEach(1 ... 9, id: \.self) { number in
+        let remainingNumber = viewModel.getRemainingNumbers()[number - 1]
         Button {
           if viewModel.setSelectedCellValue(value: number) {
             wonGameAlert = true
           }
         } label: {
-          Text("\(number)")
+          VStack {
+            Text("\(number)")
+              .font(.headline)
+            Text("\(remainingNumber)")
+              .font(.subheadline)
+          }
         }
         .buttonStyle(.borderedProminent)
+        .disabled(remainingNumber == 0)
       }
     }
   }

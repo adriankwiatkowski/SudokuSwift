@@ -42,6 +42,10 @@ class SudokuViewModel: ObservableObject {
     }
   }
 
+  func getRemainingNumbers() -> [Int] {
+    return model.remainingNumbers
+  }
+
   func setSelectedCellValue(value: Int) -> Bool {
     return model.setSelectedCellValue(value: value)
   }
