@@ -30,7 +30,16 @@ class SudokuViewModel: ObservableObject {
   }
 
   func getCellColor(cellIndex: Int) -> Color {
-    return cellIndex == model.selectedCellIndex ? Constants.Sudoku.selectedCellColor : Constants.Sudoku.cellColor
+    if cellIndex == model.selectedCellIndex {
+      return Constants.Sudoku.selectedCellColor
+    }
+    if model.selectedSameRevealedNumberIndices.contains(cellIndex) {
+      return Constants.Sudoku.sameCellNumberColor
+    }
+    if model.highlightedCellIndices.contains(cellIndex) {
+      return Constants.Sudoku.highlightedCellColor
+    }
+    return Constants.Sudoku.cellColor
   }
 
   func getCell(cellIndex: Int) -> Cell {

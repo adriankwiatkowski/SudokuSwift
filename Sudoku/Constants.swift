@@ -21,6 +21,8 @@ enum Constants {
     static let gridBorderSize: CGFloat = 5.0
 
     static let selectedCellColor = Color.green
+    static let sameCellNumberColor = selectedCellColor.opacity(0.7)
+    static let highlightedCellColor = Color.gray
     static let cellColor = Color.white
 
     enum Difficulty {
