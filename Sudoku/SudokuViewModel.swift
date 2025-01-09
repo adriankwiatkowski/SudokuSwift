@@ -1,10 +1,3 @@
-//
-//  MemoGameViewModel.swift
-//  ZSwiftMemory
-//
-//  Created by student on 05/11/2024.
-//
-
 import Foundation
 import SwiftUI
 
@@ -33,7 +26,7 @@ class SudokuViewModel: ObservableObject {
   }
 
   func getCellColor(cellIndex: Int) -> Color {
-    return cellIndex == model.selectedCellIndex ? Color.green : Color.white
+    return cellIndex == model.selectedCellIndex ? Constants.Sudoku.selectedCellColor : Constants.Sudoku.cellColor
   }
 
   func getCell(cellIndex: Int) -> Cell {

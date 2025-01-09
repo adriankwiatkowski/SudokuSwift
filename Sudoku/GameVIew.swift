@@ -12,9 +12,9 @@ struct GameView: View {
         .overlay {
           Text(viewModel.getCellValue(cellIndex: cellIndex))
             .bold(!cell.isModifiable)
-            .font(.system(size: 200))
-            .minimumScaleFactor(0.01)
-            .padding(2.0)
+            .font(.system(size: Constants.FontSize.large))
+            .minimumScaleFactor(Constants.FontSize.scaleFactor)
+            .padding(Constants.insets)
         }
         .onTapGesture {
           viewModel.selectCell(cellIndex: cellIndex)
@@ -56,7 +56,7 @@ struct GameView: View {
           
           Text("Difficulty: \(viewModel.getDifficultyText())")
           Text("Mistakes: \(viewModel.getMistakes())")
-            .foregroundStyle(viewModel.getMistakes() > 0 ? Color.red : Color.black)
+            .foregroundStyle(viewModel.getMistakes() > 0 ? Constants.Sudoku.mistakesColor : Constants.Sudoku.mistakesNeutralColor)
           
           reset
           

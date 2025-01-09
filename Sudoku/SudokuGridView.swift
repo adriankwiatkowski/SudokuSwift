@@ -10,13 +10,13 @@ struct SudokuGridView<Content: View>: View {
   }
 
   var body: some View {
-    SudokuGroupGridView(borderColor: .black, borderSize: 2.0) { outerX, outerY in
-      SudokuGroupGridView(borderColor: .gray, borderSize: 1.0) { innerX, innerY in
+    SudokuGroupGridView(borderColor: Constants.Sudoku.groupBorderColor, borderSize: Constants.Sudoku.groupBorderSize) { outerX, outerY in
+      SudokuGroupGridView(borderColor: Constants.Sudoku.cellBorderColor, borderSize: Constants.Sudoku.cellBorderSize) { innerX, innerY in
         let x = outerX * 3 + innerX
         let y = outerY * 3 + innerY
         content(x, y)
       }
     }
-    .border(.black, width: 5.0)
+    .border(Constants.Sudoku.gridBorderColor, width: Constants.Sudoku.gridBorderSize)
   }
 }

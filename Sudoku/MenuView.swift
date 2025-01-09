@@ -1,10 +1,3 @@
-//
-//  MenuView.swift
-//  Sudoku
-//
-//  Created by student on 17/12/24.
-//
-
 import SwiftUI
 
 struct MenuView: View {
@@ -40,5 +33,5 @@ struct MenuView: View {
 }
 
 #Preview {
-  MenuView()
+  MenuView(onDifficultySelect: { _ in })
 }
