@@ -3,6 +3,8 @@ import SwiftUI
 
 class SudokuViewModel: ObservableObject {
   @Published private(set) var model: SudokuModel
+  @Published private(set) var isWon = false
+  @Published private(set) var showWonGameAlert = false
   @Published private(set) var isGenerating = true
   @Published private(set) var difficulty: PlayingDifficulty
 
@@ -14,6 +16,8 @@ class SudokuViewModel: ObservableObject {
   }
 
   func reset() {
+    isWon = false
+    showWonGameAlert = false
     isGenerating = true
 
     DispatchQueue.global(qos: .background).async {
@@ -47,7 +51,12 @@ class SudokuViewModel: ObservableObject {
   }
 
   func setSelectedCellValue(value: Int) -> Bool {
-    return model.setSelectedCellValue(value: value)
+    let won = model.setSelectedCellValue(value: value)
+    if won {
+      isWon = true
+      showWonGameAlert = true
+    }
+    return won
   }
 
   func selectCell(cellIndex: Int) {

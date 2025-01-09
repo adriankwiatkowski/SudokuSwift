@@ -2,7 +2,6 @@ import SwiftUI
 
 struct GameView: View {
   @ObservedObject var viewModel: SudokuViewModel
-  @State private var wonGameAlert = false
 
   var sudoku: some View {
     SudokuGridView { x, y in
@@ -28,9 +27,7 @@ struct GameView: View {
       ForEach(1 ... 9, id: \.self) { number in
         let remainingNumber = viewModel.getRemainingNumbers()[number - 1]
         Button {
-          if viewModel.setSelectedCellValue(value: number) {
-            wonGameAlert = true
-          }
+          setSelectedCellValue(value: number)
         } label: {
           VStack {
             Text("\(number)")
@@ -70,7 +67,7 @@ struct GameView: View {
           sudoku
           inputNumbers
         }
-        .alert("You won!", isPresented: $wonGameAlert) {
+        .alert("You won!", isPresented: $viewModel.showWonGameAlert) {
           Button("Reset") {
             viewModel.reset()
           }
