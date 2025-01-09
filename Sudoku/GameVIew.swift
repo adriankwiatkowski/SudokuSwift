@@ -47,22 +47,33 @@ struct GameView: View {
   }
 
   var body: some View {
-    VStack {
-      Text("Sudoku")
-        .font(.largeTitle)
-
-      Text("Mistakes: \(viewModel.getMistakes())")
-        .foregroundStyle(viewModel.getMistakes() > 0 ? Color.red : Color.black)
-
-      reset
-
-      sudoku
-      inputNumbers
-    }
-    .alert("You won!", isPresented: $wonGameAlert) {
-      Button("Reset") {
-        viewModel.reset()
+      if viewModel.isGenerating {
+          Text("Generating...")
+      } else {
+        VStack {
+          Text("Sudoku")
+            .font(.largeTitle)
+          
+          Text("Difficulty: \(viewModel.getDifficultyText())")
+          Text("Mistakes: \(viewModel.getMistakes())")
+            .foregroundStyle(viewModel.getMistakes() > 0 ? Color.red : Color.black)
+          
+          reset
+          
+          sudoku
+          inputNumbers
+        }
+        .alert("You won!", isPresented: $wonGameAlert) {
+          Button("Reset") {
+            viewModel.reset()
+          }
+        } message: {
+          Text("You made \(viewModel.getMistakes()) mistakes")
+        }
       }
-    }
   }
+}
+
+#Preview {
+  GameView(viewModel: .init(difficulty: .beginner))
 }

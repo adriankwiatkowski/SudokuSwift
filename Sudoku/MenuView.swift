@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct MenuView: View {
-  func difficultyButton(text: String) -> some View {
-    Button {} label: {
+
+  var onDifficultySelect: (PlayingDifficulty) -> Void
+
+  func difficultyButton(text: String, difficulty: PlayingDifficulty) -> some View {
+    Button {
+      onDifficultySelect(difficulty)
+    } label: {
       Text(text)
         .frame(maxWidth: .infinity)
     }
@@ -19,15 +24,14 @@ struct MenuView: View {
 
   var body: some View {
     VStack {
-      Text("Sudoku")
       Spacer()
+      Text("Sudoku")
 
-      // Zdjecie ??
-
-      difficultyButton(text: "Latwy")
-      difficultyButton(text: "Sredni")
-      difficultyButton(text: "Trudny")
-      difficultyButton(text: "Bardzo trudny")
+      difficultyButton(text: "Beginner", difficulty: .beginner)
+      difficultyButton(text: "Easy", difficulty: .easy)
+      difficultyButton(text: "Medium", difficulty: .medium)
+      difficultyButton(text: "Hard", difficulty: .hard)
+      difficultyButton(text: "Very Hard", difficulty: .veryHard)
 
       Spacer()
     }

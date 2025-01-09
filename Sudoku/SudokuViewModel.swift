@@ -10,13 +10,26 @@ import SwiftUI
 
 class SudokuViewModel: ObservableObject {
   @Published private(set) var model: SudokuModel
-  @Published var isGenerating = true
+  @Published private(set) var isGenerating = true
+  @Published private(set) var difficulty: PlayingDifficulty
 
   init(difficulty: PlayingDifficulty) {
+    self.difficulty = difficulty
     model = SudokuModel(cells: [])
-    isGenerating = true
 
     reset()
+  }
+
+  func reset() {
+    isGenerating = true
+
+    DispatchQueue.global(qos: .background).async {
+      let cells = SudokuGenerator.generateBoard(fieldsToReveal: getFieldsToReveal())
+      DispatchQueue.main.async {
+        self.model = SudokuModel(cells: cells)
+        self.isGenerating = false
+      }
+    }
   }
 
   func getCellColor(cellIndex: Int) -> Color {
@@ -36,18 +49,6 @@ class SudokuViewModel: ObservableObject {
     }
   }
 
-  func reset() {
-    isGenerating = true
-
-    DispatchQueue.global(qos: .background).async {
-      let cells = SudokuGenerator.generateBoard(fieldsToReveal: 70)
-      DispatchQueue.main.async {
-        self.model = SudokuModel(cells: cells)
-        self.isGenerating = false
-      }
-    }
-  }
-
   func setSelectedCellValue(value: Int) -> Bool {
     return model.setSelectedCellValue(value: value)
   }
@@ -58,5 +59,39 @@ class SudokuViewModel: ObservableObject {
 
   func getMistakes() -> Int {
     model.mistakes
+  }
+
+  func getDifficultyText() -> String {
+    switch self.difficulty {
+      case .beginner:
+        return "Beginner"
+      case .easy:
+        return "Easy"
+      case .medium:
+        return "Medium"
+      case .hard:
+        return "Hard"
+      case .veryHard:
+        return "Very Hard"
+      default:
+        return "Unknown"
+    }
+  }
+
+  private func getFieldsToReveal() -> Int {
+    var fieldsToReveal = Constants.Sudoku.Difficulty.beginnerRevealedFields
+    switch self.difficulty {
+      case .beginner:
+        fieldsToReveal = Constants.Sudoku.Difficulty.beginnerRevealedFields
+      case .easy:
+        fieldsToReveal = Constants.Sudoku.Difficulty.easyRevealedFields
+      case .medium:
+        fieldsToReveal = Constants.Sudoku.Difficulty.mediumRevealedFields
+      case .hard:
+        fieldsToReveal = Constants.Sudoku.Difficulty.hardRevealedFields
+      case .veryHard:
+        fieldsToReveal = Constants.Sudoku.Difficulty.veryHardRevealedFields
+    }
+    return fieldsToReveal
   }
 }
