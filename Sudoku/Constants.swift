@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 enum Constants {
   static let insets: CGFloat = 2
@@ -21,8 +22,8 @@ enum Constants {
     static let gridBorderSize: CGFloat = 5.0
 
     static let selectedCellColor = Color.green
-    static let sameCellNumberColor = selectedCellColor.opacity(0.7)
-    static let highlightedCellColor = Color.gray
+    static let sameCellNumberColor = selectedCellColor.opacity(0.2)
+    static let highlightedCellColor = Color.gray.opacity(0.5)
     static let cellColor = Color.white
 
     enum Difficulty {
@@ -31,7 +32,14 @@ enum Constants {
       static let easyRevealedFields = totalFields - 20
       static let mediumRevealedFields = totalFields - 35
       static let hardRevealedFields = totalFields - 47
-      static let veryHardRevealedFields = totalFields - 56
+      static let veryHardRevealedFields = totalFields - 50
     }
+  }
+    
+  enum Animation {
+    static let shakeIntensity: CGFloat = 10
+    static let shakeDuration: CGFloat = 0.6
+    static let shakeRepeatCount = 3
+    static let shakeRepeatDuration = shakeDuration / CGFloat(shakeRepeatCount)
   }
 }

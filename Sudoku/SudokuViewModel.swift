@@ -4,9 +4,10 @@ import SwiftUI
 class SudokuViewModel: ObservableObject {
   @Published private(set) var model: SudokuModel
   @Published private(set) var isWon = false
-  @Published private(set) var showWonGameAlert = false
   @Published private(set) var isGenerating = true
   @Published private(set) var difficulty: PlayingDifficulty
+  @Published var showWonGameAlert = false
+  @Published private(set) var shouldShakeMistakes = false
 
   init(difficulty: PlayingDifficulty) {
     self.difficulty = difficulty
@@ -21,7 +22,7 @@ class SudokuViewModel: ObservableObject {
     isGenerating = true
 
     DispatchQueue.global(qos: .background).async {
-      let cells = SudokuGenerator.generateBoard(fieldsToReveal: getFieldsToReveal())
+      let cells = SudokuGenerator.generateBoard(fieldsToReveal: self.getFieldsToReveal())
       DispatchQueue.main.async {
         self.model = SudokuModel(cells: cells)
         self.isGenerating = false
@@ -60,7 +61,20 @@ class SudokuViewModel: ObservableObject {
   }
 
   func setSelectedCellValue(value: Int) -> Bool {
+    let previousMistakes = getMistakes()
     let won = model.setSelectedCellValue(value: value)
+
+    if getMistakes() > previousMistakes {
+      withAnimation(nil) { // disable default animation
+        shouldShakeMistakes = true
+      }
+      DispatchQueue.main.asyncAfter(deadline: .now() + Constants.Animation.shakeDuration) {
+        withAnimation(nil) { // disable default animation
+          self.shouldShakeMistakes = false
+        }
+      }
+    }
+
     if won {
       isWon = true
       showWonGameAlert = true
@@ -88,8 +102,6 @@ class SudokuViewModel: ObservableObject {
         return "Hard"
       case .veryHard:
         return "Very Hard"
-      default:
-        return "Unknown"
     }
   }
 
